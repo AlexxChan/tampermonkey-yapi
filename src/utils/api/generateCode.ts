@@ -42,12 +42,12 @@ function getGenCommentFunc(
    */
   const extraComment = (
     [
-      {
-        label: '分类',
-        value: `[${syntheticalConfig?.classifyInfo?.name}↗](${getUrl(
-          `cat_${syntheticalConfig?.classifyInfo?._id}`
-        )})`
-      },
+      // {
+      //   label: '分类',
+      //   value: `[${syntheticalConfig?.classifyInfo?.name}↗](${getUrl(
+      //     `cat_${syntheticalConfig?.classifyInfo?._id}`
+      //   )})`
+      // },
       {
         label: '标签',
         value: interfaceInfo.tag.map((tag) => `${tag}  `)
