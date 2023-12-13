@@ -454,8 +454,6 @@ export async function jsonSchemaToType(jsonSchema: JSONSchema4, typeName: string
   // jstt.compile好像默认使用 ThisIsFakeTypeName 作为fakeName
   const fakeTypeName = 'ThisIsFakeTypeName'
   const data = jsonSchemaToJSTTJsonSchema(cloneDeep(jsonSchema), typeName)
-  console.log(data)
-  console.log(window.jstt)
   const code = await (window as any).jstt.compile(data, fakeTypeName, {
     bannerComment: '',
     unknownAny: true,
@@ -469,6 +467,5 @@ export async function jsonSchemaToType(jsonSchema: JSONSchema4, typeName: string
       useTabs: true
     }
   })
-  console.log(111, code)
   return code.replace(fakeTypeName, typeName).trim()
 }
