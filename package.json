@@ -2,7 +2,7 @@
   "name": "tampermonkey-yapi",
   "private": true,
   "description": "This is a tampermonkey script for yapi",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,12 +11,15 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@types/axios": "^0.14.0",
     "ace-builds": "^1.32.0",
     "ant-design-vue": "^4.0.6",
+    "axios": "^1.6.2",
     "copy-to-clipboard": "^3.3.3",
     "dedent-js": "^1.0.1",
     "json-schema": "^0.4.0",
     "json-schema-to-typescript": "^4.1.0",
+    "json5": "^2.2.3",
     "lodash-es": "^4.17.21",
     "to-json-schema": "^0.2.5",
     "vue": "^3.3.4"
@@ -57,4 +60,3 @@
     "vue-tsc": "^1.8.8"
   }
 }
-

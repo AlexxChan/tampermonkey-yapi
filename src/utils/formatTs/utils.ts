@@ -105,7 +105,7 @@ export function jsonSchemaToJSTTJsonSchema(
       // )
       // const typeAbsolutePathArr = typeAbsolutePath.split('/').filter(Boolean)
       // let tsTypeLeft = ''
-      // let tsTypeRight = typeName
+      // let tsTypeRight = typeNames
       // for (const key of typeAbsolutePathArr) {
       //   tsTypeLeft += 'NonNullable<'
       //   tsTypeRight += `[${JSON.stringify(key)}]>`

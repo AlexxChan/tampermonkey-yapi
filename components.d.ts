@@ -9,6 +9,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
     ADrawer: typeof import('ant-design-vue/es')['Drawer']
+    ASpin: typeof import('ant-design-vue/es')['Spin']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
+    CopyTextarea: typeof import('./src/components/CopyTextarea.vue')['default']
+    SettingDrawer: typeof import('./src/components/SettingDrawer.vue')['default']
+    TooltipIcon: typeof import('./src/components/TooltipIcon.vue')['default']
+    TypeDrawer: typeof import('./src/components/TypeDrawer.vue')['default']
   }
 }

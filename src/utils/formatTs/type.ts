@@ -2,18 +2,18 @@ import { JSONSchema4, JSONSchema4TypeName } from 'json-schema'
 import { ParsedPath } from 'path'
 
 export interface ListReturnInfo {
-  edit_uid: number;
-  status: string;
-  api_opened: boolean;
-  tag: any[];
-  _id: number;
-  method: string;
-  catid: number;
-  title: string;
-  path: string;
-  project_id: number;
-  uid: number;
-  add_time: number;
+  edit_uid: number
+  status: string
+  api_opened: boolean
+  tag: any[]
+  _id: number
+  method: string
+  catid: number
+  title: string
+  path: string
+  project_id: number
+  uid: number
+  add_time: number
 }
 
 export interface ChangeCase {
@@ -102,7 +102,7 @@ export enum MethodEnum {
   DELETE = 'DELETE',
   HEAD = 'HEAD',
   OPTIONS = 'OPTIONS',
-  PATCH = 'PATCH',
+  PATCH = 'PATCH'
 }
 
 /** 是否必需 */
@@ -110,7 +110,7 @@ export enum RequiredEnum {
   /** 不必需 */
   false = '0',
   /** 必需 */
-  true = '1',
+  true = '1'
 }
 
 /** 请求数据类型 */
@@ -128,7 +128,7 @@ export enum RequestBodyTypeEnum {
   /** 原始数据 */
   raw = 'raw',
   /** 无请求数据 */
-  none = 'none',
+  none = 'none'
 }
 
 /** 请求路径参数类型 */
@@ -136,7 +136,7 @@ export enum RequestParamTypeEnum {
   /** 字符串 */
   string = 'string',
   /** 数字 */
-  number = 'number',
+  number = 'number'
 }
 
 /** 请求查询参数类型 */
@@ -144,7 +144,7 @@ export enum RequestQueryTypeEnum {
   /** 字符串 */
   string = 'string',
   /** 数字 */
-  number = 'number',
+  number = 'number'
 }
 
 /** 请求表单条目类型 */
@@ -152,7 +152,7 @@ export enum RequestFormItemTypeEnum {
   /** 纯文本 */
   text = 'text',
   /** 文件 */
-  file = 'file',
+  file = 'file'
 }
 
 /** 返回数据类型 */
@@ -164,7 +164,7 @@ export enum ResponseBodyTypeEnum {
   /** XML */
   xml = 'xml',
   /** 原始数据 */
-  raw = 'raw',
+  raw = 'raw'
 
   // yapi 实际上返回的是 json，有另外的字段指示其是否是 json schema
   /** JSON Schema */
@@ -174,15 +174,15 @@ export enum ResponseBodyTypeEnum {
 /** 查询字符串数组格式化方式 */
 export enum QueryStringArrayFormatEnum {
   /** 示例: `a[]=b&a[]=c` */
-      'brackets' = 'brackets',
+  'brackets' = 'brackets',
   /** 示例: `a[0]=b&a[1]=c` */
-      'indices' = 'indices',
+  'indices' = 'indices',
   /** 示例: `a=b&a=c` */
-      'repeat' = 'repeat',
+  'repeat' = 'repeat',
   /** 示例: `a=b,c` */
-      'comma' = 'comma',
+  'comma' = 'comma',
   /** 示例: `a=["b","c"]` */
-      'json' = 'json',
+  'json' = 'json'
 }
 
 /** 接口定义 */
@@ -357,10 +357,7 @@ export interface ReactHooksConfig {
    * @param changeCase 常用的大小写转换函数集合对象
    * @returns 请求 Hook 的名称
    */
-  getRequestHookName?(
-      interfaceInfo: ExtendedInterface,
-      changeCase: ChangeCase,
-  ): string
+  getRequestHookName?(interfaceInfo: ExtendedInterface, changeCase: ChangeCase): string
 }
 
 /** 支持生成 JSON Schema 的相关配置 */
@@ -507,9 +504,7 @@ export interface SharedConfig {
    *
    * @example 'src/api/index.ts'
    */
-  outputFilePath?:
-      | string
-      | ((interfaceInfo: Interface, changeCase: ChangeCase) => string)
+  outputFilePath?: string | ((interfaceInfo: Interface, changeCase: ChangeCase) => string)
 
   /**
    * 请求函数文件路径。
@@ -567,8 +562,8 @@ export interface SharedConfig {
    * @returns 返回要赋给 extraInfo 的值
    */
   setRequestFunctionExtraInfo?(
-      interfaceInfo: Interface,
-      changeCase: ChangeCase,
+    interfaceInfo: Interface,
+    changeCase: ChangeCase
   ): Record<string, any>
 
   /**
@@ -589,9 +584,9 @@ export interface SharedConfig {
    * ```
    */
   preproccessInterface?(
-      interfaceInfo: Interface,
-      changeCase: ChangeCase,
-      syntheticalConfig: SyntheticalConfig,
+    interfaceInfo: Interface,
+    changeCase: ChangeCase,
+    syntheticalConfig: SyntheticalConfig
   ): Interface | false
 
   /**
@@ -602,10 +597,7 @@ export interface SharedConfig {
    * @param changeCase 常用的大小写转换函数集合对象
    * @returns 请求函数的名称
    */
-  getRequestFunctionName?(
-      interfaceInfo: ExtendedInterface,
-      changeCase: ChangeCase,
-  ): string
+  getRequestFunctionName?(interfaceInfo: ExtendedInterface, changeCase: ChangeCase): string
 
   /**
    * 获取请求数据类型的名称。
@@ -615,10 +607,7 @@ export interface SharedConfig {
    * @param changeCase 常用的大小写转换函数集合对象
    * @returns 请求数据类型的名称
    */
-  getRequestDataTypeName?(
-      interfaceInfo: ExtendedInterface,
-      changeCase: ChangeCase,
-  ): string
+  getRequestDataTypeName?(interfaceInfo: ExtendedInterface, changeCase: ChangeCase): string
 
   /**
    * 获取响应数据类型的名称。
@@ -628,10 +617,7 @@ export interface SharedConfig {
    * @param changeCase 常用的大小写转换函数集合对象
    * @returns 响应数据类型的名称
    */
-  getResponseDataTypeName?(
-      interfaceInfo: ExtendedInterface,
-      changeCase: ChangeCase,
-  ): string
+  getResponseDataTypeName?(interfaceInfo: ExtendedInterface, changeCase: ChangeCase): string
 }
 
 /**
@@ -695,14 +681,14 @@ export interface ServerConfig extends SharedConfig {
 
 /** 混合的配置。 */
 export type SyntheticalConfig = Partial<
-    ServerConfig &
+  ServerConfig &
     ServerConfig['projects'][0] &
     ServerConfig['projects'][0]['categories'][0] & {
-  mockUrl: string
-  devUrl: string
-  prodUrl: string
-}
-    >
+      mockUrl: string
+      devUrl: string
+      prodUrl: string
+    }
+>
 
 /** 配置。 */
 export type Config = ServerConfig | ServerConfig[]
@@ -711,15 +697,15 @@ export type Config = ServerConfig | ServerConfig[]
  * 请求配置。
  */
 export interface RequestConfig<
-    MockUrl extends string = string,
-    DevUrl extends string = string,
-    ProdUrl extends string = string,
-    Path extends string = string,
-    DataKey extends OneOrMore<string> | undefined = OneOrMore<string> | undefined,
-    ParamName extends string = string,
-    QueryName extends string = string,
-    RequestDataOptional extends boolean = boolean,
-    > {
+  MockUrl extends string = string,
+  DevUrl extends string = string,
+  ProdUrl extends string = string,
+  Path extends string = string,
+  DataKey extends OneOrMore<string> | undefined = OneOrMore<string> | undefined,
+  ParamName extends string = string,
+  QueryName extends string = string,
+  RequestDataOptional extends boolean = boolean
+> {
   /** 接口 Mock 地址，结尾无 `/` */
   mockUrl: MockUrl
   /** 接口测试环境地址，结尾无 `/` */
@@ -776,11 +762,11 @@ export interface RequestFunctionParams extends RequestConfig {
 
 /** 请求函数的额外参数 */
 export type RequestFunctionRestArgs<T extends Function> = T extends (
-        payload: any,
-        ...args: infer R
-    ) => any
-    ? R
-    : never
+  payload: any,
+  ...args: infer R
+) => any
+  ? R
+  : never
 
 /** 属性定义 */
 export interface PropDefinition {
