@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-  import { FilePdfTwoTone } from '@ant-design/icons-vue'
-  import { Button, notification, Tooltip } from 'ant-design-vue'
-  import { createVNode, h, ref, render } from 'vue'
+  import { notification } from 'ant-design-vue'
+  import { createVNode, ref, render } from 'vue'
   import SettingDrawer from './components/SettingDrawer.vue'
+  import TooltipIcon from './components/TooltipIcon.vue'
   import TypeDrawer from './components/TypeDrawer.vue'
   import { parseClassifyId } from './lib/main'
-  import TooltipIcon from './components/TooltipIcon.vue'
+  import { parseUrl } from './utils/new/parseUrl'
 
   const typeRef = ref()
   const settingRef = ref()
@@ -45,9 +45,7 @@
           title: '查看该分类的ts类型以及请求方法'
         })
         render(vm, domEl)
-        console.log(vm.el)
         ;(vm.el as HTMLElement).addEventListener('click', (e) => {
-          console.log(111, e)
           e.preventDefault()
 
           const href = domEl.getAttribute('href') as string

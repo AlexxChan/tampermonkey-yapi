@@ -1,7 +1,12 @@
 <template>
   <span>
     <a-tooltip placement="top" :title="title" :color="color">
-      <span class="ml-5px inline-block h-full w-20px rounded-4px text-center hover:bg-gray-200">
+      <span
+        style="box-sizing: border-box"
+        class="ml-5px inline-block h-full w-20px rounded-4px text-center"
+        u-border="1px solid transparent"
+        u-hover="bg-gray-200 border-1px border-solid border-#ccc"
+      >
         <FilePdfTwoTone class="align-middle text-14px" />
       </span>
     </a-tooltip>

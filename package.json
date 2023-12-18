@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
     "@types/axios": "^0.14.0",
+    "@vueuse/core": "^10.7.0",
     "ace-builds": "^1.32.0",
     "ant-design-vue": "^4.0.6",
     "axios": "^1.6.2",
