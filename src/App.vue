@@ -3,7 +3,7 @@
     id="append-app"
     ref="mainRef"
     class="append-app fixed right-120px top-320px h-60px w-60px flex cursor-pointer items-center justify-center rounded-50% bg-blue-400"
-    style="z-index: 10000"
+    style="z-index: 100"
     @click="openSetting"
   >
     <span ref="divRef" class="text-12px text-#fff"> Yapi </span>
@@ -19,7 +19,6 @@
   import TooltipIcon from './components/TooltipIcon.vue'
   import TypeDrawer from './components/TypeDrawer.vue'
   import { parseClassifyId } from './lib/main'
-  import { parseUrl } from './utils/new/parseUrl'
 
   const typeRef = ref()
   const settingRef = ref()

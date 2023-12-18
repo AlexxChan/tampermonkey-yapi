@@ -1,7 +1,9 @@
 import dedent from 'dedent-js'
 import { getClassifyAllInterfaceDetail } from '../api/core'
 import { config } from '../const/config'
+import { useGlobalSetting } from '../store/setting'
 import { generateInterfaceCode } from '../utils/api/generateCode'
+const { setting } = useGlobalSetting()
 
 type CodeAryReduceReturn = { typesCode: string[]; methodsCode: string[]; typeNames: string[] }
 
@@ -30,6 +32,7 @@ export async function generateCodesByClassify(classifyId: string, classifyName: 
       // todo 类型
       generateInterfaceCode(detail as any, {
         ...config.yapiConfig,
+        urlPrefix: setting.value.urlPrefix || '',
         classifyInfo: {
           _id: classifyId,
           name: classifyName

@@ -17,6 +17,7 @@ interface SyntheticalConfig {
   projectId: string
   classifyInfo: any
   dataKey?: string
+  urlPrefix?: string
 }
 
 const TREE_SHAKING_ANNOTATION = '/*#__PURE__*/'
@@ -115,24 +116,19 @@ export async function generateInterfaceCode(
   const responseDataJsonSchema = getResponseDataJsonSchema(interfaceInfo, {}, filterKey)
   const responseDataType = await jsonSchemaToType(responseDataJsonSchema, responseDataTypeName)
 
-  // 支持路径参数
-  // const paramNames
-  // 		= (interfaceInfo.req_params ?? [])
-  // 			.map((item) => item.name)
+  // todo
 
+  // 支持路径参数
+  // const paramNames = (interfaceInfo.req_params ?? []).map((item) => item.name)
   // const paramNamesLiteral = JSON.stringify(paramNames)
-  // const paramNameType =
-  // 		paramNames.length === 0 ? 'string' : `'${paramNames.join('\' | \'')}'`
+  // const paramNameType = paramNames.length === 0 ? 'string' : `'${paramNames.join("' | '")}'`
   //
   // // 支持查询参数
-  // const queryNames = (
-  // 	interfaceInfo.req_query /* istanbul ignore next */ || []
-  // ).map((item) => item.name)
+  // const queryNames = (interfaceInfo.req_query /* istanbul ignore next */ || []).map(
+  //   (item) => item.name
+  // )
   // const queryNamesLiteral = JSON.stringify(queryNames)
-  // const queryNameType =
-  // 		queryNames.length === 0 ?
-  // 			'string' :
-  // 			`'${queryNames.join('\' | \'')}'`
+  // const queryNameType = queryNames.length === 0 ? 'string' : `'${queryNames.join("' | '")}'`
 
   const genComment = getGenCommentFunc(interfaceInfo, syntheticalConfig)
 
@@ -150,7 +146,7 @@ export async function generateInterfaceCode(
 					) => {
 						return defHttp.request<${responseDataTypeName}>(
 							{
-								url: ${JSON.stringify(interfaceInfo.path)},
+								url: ${JSON.stringify(syntheticalConfig.urlPrefix + interfaceInfo.path)},
 								method: '${interfaceInfo.method}',
 								${interfaceInfo.method === MethodEnum.GET ? 'params: data' : 'data'} 
 							}

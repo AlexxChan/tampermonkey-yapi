@@ -15,7 +15,7 @@
   const labelCol = { span: 4 }
   const wrapperCol = { span: 18 }
 
-  const settingVisible = ref(true)
+  const settingVisible = ref(false)
 
   const { setting } = useGlobalSetting()
 
