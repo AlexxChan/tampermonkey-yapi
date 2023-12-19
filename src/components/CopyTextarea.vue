@@ -1,15 +1,6 @@
 <template>
-  <section class="">
-    <div class="mb-10px h-18px flex items-center text-left text-16px font-400 text-#333">
-      <div class="mr-10px h-18px w-4px bg-red-400 leading-18px"></div>
-      <span>{{ title }}</span>
-      <CopyOutlined
-        class="ml-10px mt-2px cursor-pointer text-14px"
-        @click="copyText(text, copySuccessMsg)"
-      />
-    </div>
-    <highlightjs language="javascript" :code="text" />
-    <!--    <a-textarea :value="text" :autoSize="{ minRows: 5, maxRows: 15 }" />-->
+  <section class="relative">
+    <highlightjs class="mt-18px" language="javascript" :code="text" />
   </section>
 </template>
 
