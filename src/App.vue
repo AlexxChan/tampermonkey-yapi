@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="projectId"
     id="append-app"
     ref="mainRef"
     class="append-app fixed right-120px top-320px h-60px w-60px flex cursor-pointer items-center justify-center rounded-50% bg-blue-400"
@@ -14,11 +15,14 @@
 
 <script setup lang="ts">
   import { notification } from 'ant-design-vue'
-  import { createVNode, ref, render } from 'vue'
+  import { createVNode, ref, render, watch } from 'vue'
   import SettingDrawer from './components/SettingDrawer.vue'
   import TooltipIcon from './components/TooltipIcon.vue'
   import TypeDrawer from './components/TypeDrawer.vue'
+  import { useUrlParams } from './hook/useUrlParams'
   import { parseClassifyId } from './lib/main'
+
+  const { projectId } = useUrlParams()
 
   const typeRef = ref()
   const settingRef = ref()
@@ -81,7 +85,15 @@
     }
   }
 
-  mountEventOnClassifyNode()
+  watch(
+    projectId,
+    () => {
+      projectId.value && mountEventOnClassifyNode()
+    },
+    {
+      immediate: true
+    }
+  )
 </script>
 
 <style lang="less">

@@ -1,13 +1,32 @@
 import { createGlobalState, useStorage } from '@vueuse/core'
-import { parseUrl } from '../utils/new/parseUrl'
+import { ref, watch, watchEffect } from 'vue'
+import { useUrlParams } from '../hook/useUrlParams'
+
+interface SettingData {
+  urlPrefix?: string
+}
+
+type SettingStorage = Record<string, SettingData>
 
 export const useGlobalSetting = createGlobalState(() => {
-  // todo 目前页面切换不会自动更新，后续改成使用路由监听和响应式
-  const { projectId } = parseUrl()
+  const { projectId } = useUrlParams()
 
-  const setting = useStorage(`global-setting-${projectId}`, {
-    // 前缀
-    urlPrefix: ''
+  const data = useStorage<SettingStorage>('global-setting-arr', {})
+
+  const setting = ref(data.value[projectId.value] || {})
+
+  watch(
+    setting,
+    () => {
+      data.value[projectId.value] = setting.value
+    },
+    {
+      deep: true
+    }
+  )
+
+  watchEffect(() => {
+    setting.value = data.value[projectId.value] || {}
   })
 
   return { setting }
