@@ -1,4 +1,4 @@
-import { get } from '../utils/request'
+import { get } from '../new_utils/request'
 import { ClassifyListResponse, InterfaceDetailResponse } from './model/core'
 
 /**

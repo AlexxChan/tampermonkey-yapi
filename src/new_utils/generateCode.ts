@@ -1,13 +1,13 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent-js'
 import { camelCase, castArray } from 'lodash-es'
-import { Interface, MethodEnum } from '../formatTs/type.js'
+import { Interface, MethodEnum } from '../utils/formatTs/type'
 import {
   getRequestDataJsonSchema,
   getResponseDataJsonSchema,
   jsonSchemaToType
-} from '../formatTs/utils.js'
-import { pascalCase } from '../pascalCase.js'
+} from '../utils/formatTs/utils'
+import { pascalCase } from './pascalCase'
 
 type GenCommentFunc = (func: (title: string) => string) => string
 

@@ -1,8 +1,7 @@
 import 'uno.css'
 import { createApp } from 'vue'
 import App from './App.vue'
-import './style.css'
-import { registerXhrWatcher } from './utils/onLoadXhr'
+import { registerXhrWatcher } from './new_utils/onLoadXhr'
 
 /*黑色主题*/
 import 'highlight.js/styles/atom-one-dark.css'

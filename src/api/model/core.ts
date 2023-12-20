@@ -1,5 +1,3 @@
-import { Interface } from '../../utils/formatTs/type'
-
 export interface ClassifyListResponseData {
   count: number
   total: number

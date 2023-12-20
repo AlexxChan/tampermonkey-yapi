@@ -1,12 +1,11 @@
 <template>
   <section class="relative">
-    <highlightjs class="mt-18px" language="javascript" :code="text" />
+    <highlightjs class="mt-18px" language="javascript" :code="beautifyJs(text)" />
   </section>
 </template>
 
 <script setup lang="ts">
-  import { CopyOutlined } from '@ant-design/icons-vue'
-  import { copyText } from '../utils/new/copy'
+  import { beautifyJs } from '../new_utils/beautifyJs'
 
   withDefaults(
     defineProps<{

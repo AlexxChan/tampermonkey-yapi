@@ -38,8 +38,9 @@
   import { CopyOutlined } from '@ant-design/icons-vue'
   import { useMagicKeys, whenever } from '@vueuse/core'
   import { computed, ref } from 'vue'
-  import { generateCodesByClassify } from '../lib/main'
-  import { copyText } from '../utils/new/copy'
+  import { generateCodesByClassify } from '../new_utils/main'
+  import { beautifyJs } from '../new_utils/beautifyJs'
+  import { copyText } from '../new_utils/copy'
   import CopyTextarea from './CopyTextarea.vue'
 
   type DrawerType = 'classify' | 'interface'
@@ -115,8 +116,8 @@
         visible.value = true
         const { typeCode, methodCode } = await generateCodesByClassify(classifyId, classifyName)
         state.value = {
-          methodCode,
-          typeCode
+          methodCode: methodCode,
+          typeCode: typeCode
         }
       } else {
         console.log('暂时不支持interface')

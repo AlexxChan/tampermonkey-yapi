@@ -18,10 +18,10 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-      // @ts-ignore
+    // @ts-ignore
     visualizer({
       // 打包完成后自动打开浏览器，显示产物体积报告
-      open: false
+      open: true
     }),
     Components({
       dts: 'components.d.ts',
@@ -51,7 +51,9 @@ export default defineConfig({
       build: {
         externalGlobals: {
           vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js')
+          // 'lodash-es': 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js'
         },
+        // todo
         externalResource: {
           './static/tts.js': `https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.6.5/dist/bundle.js`
         }

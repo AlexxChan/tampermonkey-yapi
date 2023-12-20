@@ -2,7 +2,7 @@ import dedent from 'dedent-js'
 import { getClassifyAllInterfaceDetail } from '../api/core'
 import { config } from '../const/config'
 import { useGlobalSetting } from '../store/setting'
-import { generateInterfaceCode } from '../utils/api/generateCode'
+import { generateInterfaceCode } from './generateCode'
 const { setting } = useGlobalSetting()
 
 type CodeAryReduceReturn = { typesCode: string[]; methodsCode: string[]; typeNames: string[] }
