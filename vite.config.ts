@@ -8,14 +8,8 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  build: {
-    // minify: true
-  },
-  resolve: {
-    // alias: {
-    //   tts: './node_modules/json-schema-to-typescript/dist/bundle.js'
-    // }
-  },
+  build: {},
+  resolve: {},
   plugins: [
     vue(),
     // @ts-ignore

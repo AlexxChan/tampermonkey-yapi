@@ -7,6 +7,7 @@ import {
   getResponseDataJsonSchema,
   jsonSchemaToType
 } from '../utils/formatTs/utils'
+import { InterfaceGenRes } from './main'
 import { pascalCase } from './pascalCase'
 
 type GenCommentFunc = (func: (title: string) => string) => string
@@ -100,7 +101,7 @@ export function getApiFuncName(interfaceInfo: Interface): string {
 export async function generateInterfaceCode(
   interfaceInfo: Interface,
   syntheticalConfig: SyntheticalConfig
-) {
+): Promise<InterfaceGenRes> {
   // 请求方法的名称
   const requestFunctionName = getApiFuncName(interfaceInfo)
   // 请求数据类型名称
@@ -154,6 +155,8 @@ export async function generateInterfaceCode(
 					}
 		`
   return {
+    title: interfaceInfo.title,
+    id: interfaceInfo._id,
     typeCode,
     methodCode,
     typeNames: [requestDataTypeName, responseDataTypeName]

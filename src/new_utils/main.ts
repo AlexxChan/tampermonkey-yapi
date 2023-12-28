@@ -3,7 +3,16 @@ import { getClassifyAllInterfaceDetail } from '../api/core'
 import { config } from '../const/config'
 import { useGlobalSetting } from '../store/setting'
 import { generateInterfaceCode } from './generateCode'
+
 const { setting } = useGlobalSetting()
+
+export type InterfaceGenRes = {
+  title: string
+  id: number
+  typeCode: string
+  methodCode: string
+  typeNames: [requestDataTypeName: string, responseDataTypeName: string]
+}
 
 type CodeAryReduceReturn = { typesCode: string[]; methodsCode: string[]; typeNames: string[] }
 
@@ -19,15 +28,17 @@ export function parseClassifyId(link: string) {
 }
 
 /**
- * @description 根据classifyId生成ts代码
+ * 获取分类下的所有接口详情
  * @param {string} classifyId
- * @param {string} classifyName
- * @returns {Promise<{typeNames: any, methodCode: string, typeCode: string}>}
+ * @param classifyName
+ * @returns {Promise<Awaited<{typeNames: any[], methodCode: string, typeCode: string}>[]>}
  */
-export async function generateCodesByClassify(classifyId: string, classifyName: string) {
+export async function getInterfaceDetailList(
+  classifyId: string,
+  classifyName: string
+): Promise<InterfaceGenRes[]> {
   const interfaceList = await getClassifyAllInterfaceDetail(classifyId)
-
-  const codeAry = await Promise.all(
+  return await Promise.all(
     interfaceList.map(async (detail) =>
       // todo 类型
       generateInterfaceCode(detail as any, {
@@ -40,7 +51,14 @@ export async function generateCodesByClassify(classifyId: string, classifyName: 
       })
     )
   )
+}
 
+/**
+ * @description 根据classifyId生成ts代码
+ * @returns {Promise<{typeNames: any, methodCode: string, typeCode: string}>}
+ * @param codeAry
+ */
+export async function generateCodesByApiDetailList(codeAry: InterfaceGenRes[]) {
   const { typesCode, methodsCode, typeNames } = codeAry.reduce<CodeAryReduceReturn>(
     (prev, { typeCode, methodCode, typeNames }) => {
       prev.typesCode.push(typeCode)

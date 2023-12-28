@@ -13,6 +13,21 @@
           <div
             class="h-28px w-full flex items-center bg-#fff pr-20px text-left text-16px font-400 text-#333"
           >
+            <a-popover placement="bottom">
+              <template #content>
+                <a-checkbox-group v-model:value="checkedKeys" style="width: auto">
+                  <a-row>
+                    <a-col v-for="item in interfaceList" :key="item.id" :span="24">
+                      <a-checkbox :value="item.id">{{ item.title }}</a-checkbox>
+                    </a-col>
+                  </a-row>
+                </a-checkbox-group>
+              </template>
+              <template #title>
+                <span>要生成的接口</span>
+              </template>
+              <CopyOutlined class="mr-20px mt-2px cursor-pointer text-18px" />
+            </a-popover>
             <CopyOutlined
               class="ml-10px mt-2px cursor-pointer text-18px"
               @click.prevent="copyCode"
@@ -37,10 +52,13 @@
 <script setup lang="ts">
   import { CopyOutlined } from '@ant-design/icons-vue'
   import { useMagicKeys, whenever } from '@vueuse/core'
-  import { computed, ref } from 'vue'
-  import { generateCodesByClassify } from '../new_utils/main'
-  import { beautifyJs } from '../new_utils/beautifyJs'
+  import { computed, ref, watch } from 'vue'
   import { copyText } from '../new_utils/copy'
+  import {
+    generateCodesByApiDetailList,
+    getInterfaceDetailList,
+    InterfaceGenRes
+  } from '../new_utils/main'
   import CopyTextarea from './CopyTextarea.vue'
 
   type DrawerType = 'classify' | 'interface'
@@ -80,13 +98,11 @@
     typeCode: ''
   })
 
+  const interfaceList = ref<InterfaceGenRes[]>([])
+
+  const checkedKeys = ref<any[]>([])
+
   const { meta, c, ctrl, tab } = useMagicKeys()
-
-  // 按下ctrl + c 复制当前代码
-  whenever(() => (meta.value || ctrl.value) && c.value && visible.value, copyCode)
-
-  // 按下tab键 切换当前的tab
-  whenever(() => tab.value && visible.value, nextTab)
 
   function nextTab() {
     const currentIndex = tabs.findIndex((item) => item.value === activeKey.value)
@@ -112,13 +128,10 @@
     try {
       loading.value = true
       if (type === 'classify') {
-        const { classifyId, classifyName } = data as ClassifyProps
+        const { classifyName, classifyId } = data as ClassifyProps
         visible.value = true
-        const { typeCode, methodCode } = await generateCodesByClassify(classifyId, classifyName)
-        state.value = {
-          methodCode: methodCode,
-          typeCode: typeCode
-        }
+        interfaceList.value = await getInterfaceDetailList(classifyId, classifyName)
+        checkedKeys.value = interfaceList.value.map((item) => item.id)
       } else {
         console.log('暂时不支持interface')
       }
@@ -126,6 +139,28 @@
       loading.value = false
     }
   }
+
+  watch(
+    checkedKeys,
+    async () => {
+      const list = interfaceList.value.filter((item) => checkedKeys.value.includes(item.id))
+      const { typeCode, methodCode } = await generateCodesByApiDetailList(list)
+      console.log(11234)
+      state.value = {
+        methodCode: methodCode,
+        typeCode: typeCode
+      }
+    },
+    {
+      deep: true
+    }
+  )
+
+  // 按下ctrl + c 复制当前代码
+  whenever(() => (meta.value || ctrl.value) && c.value && visible.value, copyCode)
+
+  // 按下tab键 切换当前的tab
+  whenever(() => tab.value && visible.value, nextTab)
 
   defineExpose({
     open
