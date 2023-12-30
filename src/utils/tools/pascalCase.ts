@@ -1,10 +1,5 @@
-import { notification } from 'ant-design-vue'
-import copy from 'copy-to-clipboard'
+import { camelCase, upperFirst } from 'lodash'
 
-export function copyText(val: string, message = '复制成功') {
-  copy(val)
-  notification.success({
-    placement: 'top',
-    message: message
-  })
+export function pascalCase(str: string) {
+  return upperFirst(camelCase(str))
 }

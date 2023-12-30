@@ -10,7 +10,7 @@
     <span ref="divRef" class="text-12px text-#fff"> Yapi </span>
   </div>
   <setting-drawer ref="settingRef" />
-  <type-drawer ref="typeRef" />
+  <TypeModal ref="typeRef" />
 </template>
 
 <script setup lang="ts">
@@ -18,8 +18,9 @@
   import { createVNode, ref, render, watch } from 'vue'
   import SettingDrawer from './components/SettingDrawer.vue'
   import TooltipIcon from './components/TooltipIcon.vue'
-  import TypeDrawer from './components/TypeModal.vue'
+  import TypeModal from './components/TypeModal.vue'
   import { useUrlParams } from './hook/useUrlParams'
+  import { parseClassifyId } from './utils/core'
 
   const { projectId } = useUrlParams()
 
@@ -59,7 +60,7 @@
               message: '未解析到对应的分类id'
             })
 
-          typeRef.value?.open('classify', {
+          typeRef.value?.open({
             classifyId,
             classifyName
           })

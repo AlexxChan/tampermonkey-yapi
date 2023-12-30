@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-  import { beautifyJs } from '../new_utils/beautifyJs'
+  import { beautifyJs } from '../utils/tools/beautifyJs'
 
   withDefaults(
     defineProps<{

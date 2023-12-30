@@ -4,7 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import monkey, { cdn } from 'vite-plugin-monkey'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
@@ -18,13 +17,7 @@ export default defineConfig({
       open: true
     }),
     Components({
-      dts: 'components.d.ts',
-      resolvers: [
-        AntDesignVueResolver({
-          importStyle: false // css in js
-        })
-        // 组件的有效文件扩展名。
-      ],
+      dts: 'types/components.d.ts',
       extensions: ['vue', 'tsx']
     }),
     UnoCSS({
@@ -39,18 +32,35 @@ export default defineConfig({
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'npm/vite-plugin-monkey',
         match: ['*/project/*/interface/api/*'],
-        'run-at': 'document-start',
-        require: ['https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.6.5/dist/bundle.js']
+        'run-at': 'document-body',
+        require: [
+          'https://unpkg.com/dayjs/dayjs.min.js',
+          'https://unpkg.com/dayjs/plugin/customParseFormat.js',
+          'https://unpkg.com/dayjs/plugin/weekday.js',
+          'https://unpkg.com/dayjs/plugin/localeData.js',
+          'https://unpkg.com/dayjs/plugin/weekOfYear.js',
+          'https://unpkg.com/dayjs/plugin/weekYear.js',
+          'https://unpkg.com/dayjs/plugin/advancedFormat.js',
+          'https://unpkg.com/dayjs/plugin/quarterOfYear.js',
+          'https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.1.0/dist/bundle.js'
+        ]
       },
       build: {
         externalGlobals: {
-          vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js')
-          // 'lodash-es': 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js'
+          vue: cdn
+            .jsdelivr('Vue', 'dist/vue.global.prod.js')
+            // 处理vue使用iife将变量挂载在window导致无法被组件库引用到的问题
+            .concat(
+              'data:application/javascript,' +
+                encodeURIComponent(
+                  `try{this.Vue = this.Vue ?? Vue }catch{}try{window.Vue = window.Vue ?? Vue}catch{}`
+                )
+            ),
+          'ant-design-vue': cdn.jsdelivr('antd', 'dist/antd.min.js'),
+          lodash: cdn.jsdelivr('_', 'lodash.min.js'),
+          'json-schema-to-typescript/dist/bundle.js': cdn.jsdelivr('jstt', 'dist/bundle.js')
         },
-        // todo
-        externalResource: {
-          './static/tts.js': `https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.6.5/dist/bundle.js`
-        }
+        externalResource: {}
       }
     })
   ],

@@ -53,27 +53,20 @@
   import { CopyOutlined } from '@ant-design/icons-vue'
   import { useMagicKeys, whenever } from '@vueuse/core'
   import { computed, ref, watch } from 'vue'
-  import { copyText } from '../new_utils/copy'
+  import { useUrlParams } from '../hook/useUrlParams'
+  import { useGlobalSetting } from '../store/setting'
+  import { copyText } from '../utils/tools/copy'
   import {
     generateCodesByApiDetailList,
     getInterfaceDetailList,
     InterfaceGenRes
-  } from '../new_utils/main'
+  } from '../utils/core'
   import CopyTextarea from './CopyTextarea.vue'
-
-  type DrawerType = 'classify' | 'interface'
 
   interface ClassifyProps {
     classifyId: string
     classifyName: string
   }
-
-  interface InterfaceProps {
-    interfaceId: string
-    interfaceName: string
-  }
-
-  type DrawerProps<T extends DrawerType> = T extends 'classify' ? ClassifyProps : InterfaceProps
 
   const visible = ref(false)
   const loading = ref(false)
@@ -93,6 +86,10 @@
 
   const activeTab = computed(() => tabs.find((item) => item.value === activeKey.value))
 
+  const { setting } = useGlobalSetting()
+
+  const { projectId, origin } = useUrlParams()
+
   const state = ref({
     methodCode: '',
     typeCode: ''
@@ -101,8 +98,6 @@
   const interfaceList = ref<InterfaceGenRes[]>([])
 
   const checkedKeys = ref<any[]>([])
-
-  const { meta, c, ctrl, tab } = useMagicKeys()
 
   function nextTab() {
     const currentIndex = tabs.findIndex((item) => item.value === activeKey.value)
@@ -116,25 +111,27 @@
 
   /**
    * 打开抽屉
-   * @param {T} type
    * @param {DrawerProps<T>} data
    * @returns {Promise<void>}
    */
-  async function open<T extends DrawerType>(type: T, data: DrawerProps<T>) {
+  async function open(data: ClassifyProps) {
     state.value = {
       methodCode: '',
       typeCode: ''
     }
     try {
       loading.value = true
-      if (type === 'classify') {
-        const { classifyName, classifyId } = data as ClassifyProps
-        visible.value = true
-        interfaceList.value = await getInterfaceDetailList(classifyId, classifyName)
-        checkedKeys.value = interfaceList.value.map((item) => item.id)
-      } else {
-        console.log('暂时不支持interface')
-      }
+      visible.value = true
+
+      const { classifyName, classifyId } = data
+      interfaceList.value = await getInterfaceDetailList({
+        classifyId,
+        classifyName,
+        pathPrefix: setting.value.urlPrefix || '',
+        url: origin.value,
+        projectId: projectId.value
+      })
+      checkedKeys.value = interfaceList.value.map((item) => item.id)
     } finally {
       loading.value = false
     }
@@ -145,7 +142,6 @@
     async () => {
       const list = interfaceList.value.filter((item) => checkedKeys.value.includes(item.id))
       const { typeCode, methodCode } = await generateCodesByApiDetailList(list)
-      console.log(11234)
       state.value = {
         methodCode: methodCode,
         typeCode: typeCode
@@ -155,6 +151,11 @@
       deep: true
     }
   )
+
+  /**
+   * 监听键盘事件
+   */
+  const { meta, c, ctrl, tab } = useMagicKeys()
 
   // 按下ctrl + c 复制当前代码
   whenever(() => (meta.value || ctrl.value) && c.value && visible.value, copyCode)

@@ -1,7 +1,6 @@
 import 'uno.css'
 import { createApp } from 'vue'
 import App from './App.vue'
-// import { registerXhrWatcher } from './utils/http/onLoadXhr'
 
 /*白色主题*/
 import 'highlight.js/styles/stackoverflow-light.css'
@@ -10,18 +9,10 @@ import javascript from 'highlight.js/lib/languages/javascript'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 hljs.registerLanguage('javascript', javascript)
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/reset.css'
 
-// registerXhrWatcher()
+const dom = document.createElement('div')
+document.body!.append(dom)
 
-window.onload = () => {
-  createApp(App)
-    .use(hljsVuePlugin)
-    .mount(
-      // @ts-ignore
-      (() => {
-        const dom = document.createElement('div')
-        document.body!.append(dom)
-        return dom
-      })()
-    )
-}
+createApp(App).use(Antd).use(hljsVuePlugin).mount(dom)

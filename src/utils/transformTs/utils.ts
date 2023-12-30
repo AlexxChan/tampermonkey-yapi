@@ -2,9 +2,10 @@ import { JSONSchema4, JSONSchema4TypeName } from 'json-schema'
 import JSON5 from 'json5'
 import toJsonSchema from 'to-json-schema'
 import { traverse } from '../traverse.js'
-import { castArray, cloneDeep, forOwn, isArray, isEmpty, mapKeys } from 'lodash-es'
-import '../../../static/tts.js'
+import { castArray, cloneDeep, forOwn, isArray, isEmpty, mapKeys } from 'lodash'
+
 import { FileData } from './helpers.js'
+
 import {
   Interface,
   PropDefinition,
@@ -79,7 +80,7 @@ export function traverseJsonSchema(
  * 获取适用于 JSTT 的 JSONSchema。
  *
  * @param jsonSchema 待处理的 JSONSchema
- * @param typeName
+ * @param _typeName
  * @returns 适用于 JSTT 的 JSONSchema
  */
 export function jsonSchemaToJSTTJsonSchema(
@@ -454,7 +455,7 @@ export async function jsonSchemaToType(jsonSchema: JSONSchema4, typeName: string
   // jstt.compile好像默认使用 ThisIsFakeTypeName 作为fakeName
   const fakeTypeName = 'ThisIsFakeTypeName'
   const data = jsonSchemaToJSTTJsonSchema(cloneDeep(jsonSchema), typeName)
-  const code = await (window as any).jstt.compile(data, fakeTypeName, {
+  const code = await window.jstt.compile(data, fakeTypeName, {
     bannerComment: '',
     unknownAny: true,
     style: {
