@@ -24,6 +24,7 @@ declare module 'vue' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     CopyTextarea: typeof import('./src/components/CopyTextarea.vue')['default']
+    InterfaceCheckedBox: typeof import('./src/components/InterfaceCheckedBox.vue')['default']
     SettingDrawer: typeof import('./src/components/SettingDrawer.vue')['default']
     TooltipIcon: typeof import('./src/components/TooltipIcon.vue')['default']
     TypeDrawer: typeof import('./src/components/TypeDrawer.vue')['default']

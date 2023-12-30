@@ -20,7 +20,6 @@
   import TooltipIcon from './components/TooltipIcon.vue'
   import TypeDrawer from './components/TypeModal.vue'
   import { useUrlParams } from './hook/useUrlParams'
-  import { parseClassifyId } from './new_utils/main'
 
   const { projectId } = useUrlParams()
 

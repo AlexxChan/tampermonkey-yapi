@@ -1,10 +1,8 @@
 import 'uno.css'
 import { createApp } from 'vue'
 import App from './App.vue'
-import { registerXhrWatcher } from './new_utils/onLoadXhr'
+// import { registerXhrWatcher } from './utils/http/onLoadXhr'
 
-/*黑色主题*/
-import 'highlight.js/styles/atom-one-dark.css'
 /*白色主题*/
 import 'highlight.js/styles/stackoverflow-light.css'
 import hljs from 'highlight.js/lib/core'
@@ -13,7 +11,7 @@ import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 hljs.registerLanguage('javascript', javascript)
 
-registerXhrWatcher()
+// registerXhrWatcher()
 
 window.onload = () => {
   createApp(App)
