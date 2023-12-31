@@ -50,29 +50,18 @@ export default defineConfig({
         ]
       },
       build: {
-        // lodash：引入的库的名称; _: 引入的库内部导出的全局变量名称； lodash.min.js: 引入的库的路径
-        // lodash: cdn.jsdelivr('_', 'lodash.min.js')
         externalGlobals: {
-          vue: cdn
-            .jsdelivr('Vue', 'dist/vue.global.prod.js')
-            .concat(
-              'data:application/javascript,' +
-                encodeURIComponent(
-                  `try{this.Vue = this.Vue ?? Vue }catch{}try{window.Vue = window.Vue ?? Vue}catch{}`
-                )
-            ),
-          // 'element-plus': cdn.jsdelivr('ElementPlus', 'dist/index.full.min.js'),
-          'ant-design-vue': cdn.jsdelivr('antd', 'dist/antd.min.js'),
-          lodash: cdn.jsdelivr('_', 'lodash.min.js')
-          // 'highlight.js/lib/core': cdn.jsdelivr('hljs', '/lib/core.js'),
-          // 'highlight.js/lib/languages/typescript.js': cdn.jsdelivr(
-          //   'typescript',
-          //   '/lib/languages/typescript.js'
-          // )
+          lodash: ['_', 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js'],
+          vue: [
+            ...cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
+            `data:application/javascript,${encodeURIComponent(
+              `try{this.Vue = this.Vue ?? Vue }catch{}try{window.Vue = window.Vue ?? Vue}catch{}`
+            )}`
+          ],
+
+          'ant-design-vue': cdn.jsdelivr('antd', 'dist/antd.min.js')
         },
-        externalResource: {
-          'element-plus/dist/index.css': 'https://unpkg.com/element-plus/dist/index.css'
-        }
+        externalResource: {}
       }
     })
   ],
