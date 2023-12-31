@@ -41,8 +41,7 @@ export default defineConfig({
           'https://unpkg.com/dayjs/plugin/weekOfYear.js',
           'https://unpkg.com/dayjs/plugin/weekYear.js',
           'https://unpkg.com/dayjs/plugin/advancedFormat.js',
-          'https://unpkg.com/dayjs/plugin/quarterOfYear.js',
-          'https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.1.0/dist/bundle.js'
+          'https://unpkg.com/dayjs/plugin/quarterOfYear.js'
         ]
       },
       build: {
@@ -58,9 +57,15 @@ export default defineConfig({
             ),
           'ant-design-vue': cdn.jsdelivr('antd', 'dist/antd.min.js'),
           lodash: cdn.jsdelivr('_', 'lodash.min.js'),
+          dayjs: cdn.jsdelivr('dayjs', 'dayjs.min.js'),
+          axios: cdn.jsdelivr('axios', 'dist/axios.min.js'),
+          'js-beautify': cdn.jsdelivr('js_beautify', 'js/lib/beautify.min.js'),
           'json-schema-to-typescript/dist/bundle.js': cdn.jsdelivr('jstt', 'dist/bundle.js')
         },
-        externalResource: {}
+        externalResource: {
+          'highlight.js/styles/stackoverflow-light.css':
+            'https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/stackoverflow-light.css'
+        }
       }
     })
   ],

@@ -1,9 +1,11 @@
 import { JSONSchema4, JSONSchema4TypeName } from 'json-schema'
 import JSON5 from 'json5'
 import toJsonSchema from 'to-json-schema'
+import { addScript } from '../tools/addScript'
 import { traverse } from '../traverse.js'
 import { castArray, cloneDeep, forOwn, isArray, isEmpty, mapKeys } from 'lodash'
-
+// 引入线上的包
+// import { monkeyWindow } from '$'
 import { FileData } from './helpers.js'
 
 import {
@@ -15,6 +17,18 @@ import {
   RequiredEnum,
   ResponseBodyTypeEnum
 } from './type.js'
+
+// @ts-ignore
+import jstt from 'json-schema-to-typescript/dist/bundle.js'
+
+// todo 目前开发环境与生产环境不一致，生产环境是通过cdn引入的，开发环境是通过本地引入的，需要统一
+if (jstt) {
+  // 生产环境
+  // @ts-ignore
+  window.jstt = jstt
+} else {
+  addScript('https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.1.0/dist/bundle.js')
+}
 
 export function isGetLikeMethod(method: MethodEnum): boolean {
   return [MethodEnum.GET, MethodEnum.OPTIONS, MethodEnum.HEAD].includes(method)

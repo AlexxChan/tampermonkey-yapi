@@ -1,5 +1,5 @@
-import { js } from 'js-beautify'
+import js_beautify from 'js-beautify'
 
 export function beautifyJs(code: string) {
-  return js(code, {})
+  return js_beautify(code, {})
 }
