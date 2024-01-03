@@ -18,7 +18,7 @@ export default defineConfig({
     // @ts-ignore
     visualizer({
       // 打包完成后自动打开浏览器，显示产物体积报告
-      open: true
+      open: false
     }),
     Components({
       dts: 'components.d.ts',
@@ -36,7 +36,7 @@ export default defineConfig({
       userscript: {
         icon: 'https://vitejs.dev/logo.svg',
         namespace: 'npm/vite-plugin-monkey',
-        match: ['*/project/*/interface/api/*'],
+        match: ['https://www.baidu.com'],
         'run-at': 'document-body',
         require: [
           'https://unpkg.com/dayjs/dayjs.min.js',
@@ -53,10 +53,10 @@ export default defineConfig({
         externalGlobals: {
           lodash: ['_', 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js'],
           vue: [
-            ...cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
-            `data:application/javascript,${encodeURIComponent(
-              `try{this.Vue = this.Vue ?? Vue }catch{}try{window.Vue = window.Vue ?? Vue}catch{}`
-            )}`
+            ...cdn.jsdelivr('Vue', 'dist/vue.global.prod.js')
+            // `data:application/javascript,${encodeURIComponent(
+            //   `try{this.Vue = this.Vue ?? Vue }catch{}try{window.Vue = window.Vue ?? Vue}catch{}`
+            // )}`
           ],
           'ant-design-vue': cdn.jsdelivr('antd', 'dist/antd.min.js')
         },
