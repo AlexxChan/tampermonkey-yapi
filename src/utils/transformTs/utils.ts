@@ -1,12 +1,12 @@
 import { JSONSchema4, JSONSchema4TypeName } from 'json-schema'
 import JSON5 from 'json5'
 import toJsonSchema from 'to-json-schema'
-import { addScript } from '../tools/addScript'
 import { traverse } from '../traverse.js'
 import { castArray, cloneDeep, forOwn, isArray, isEmpty, mapKeys } from 'lodash'
 // 引入线上的包
-// import { monkeyWindow } from '$'
 import { FileData } from './helpers.js'
+// @ts-ignore
+import { compile } from 'json-schema-to-typescript/dist/bundle.js'
 
 import {
   Interface,
@@ -19,16 +19,7 @@ import {
 } from './type.js'
 
 // @ts-ignore
-import jstt from 'json-schema-to-typescript/dist/bundle.js'
-
-// todo 目前开发环境与生产环境不一致，生产环境是通过cdn引入的，开发环境是通过本地引入的，需要统一
-if (jstt) {
-  // 生产环境
-  // @ts-ignore
-  window.jstt = jstt
-} else {
-  addScript('https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.1.0/dist/bundle.js')
-}
+// addScript('https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.1.0/dist/bundle.js')
 
 export function isGetLikeMethod(method: MethodEnum): boolean {
   return [MethodEnum.GET, MethodEnum.OPTIONS, MethodEnum.HEAD].includes(method)
@@ -466,10 +457,11 @@ export async function jsonSchemaToType(jsonSchema: JSONSchema4, typeName: string
     return `export type ${typeName} = any`
   }
 
-  // jstt.compile好像默认使用 ThisIsFakeTypeName 作为fakeName
+  // jstt.compile默认使用 ThisIsFakeTypeName 作为fakeName
   const fakeTypeName = 'ThisIsFakeTypeName'
   const data = jsonSchemaToJSTTJsonSchema(cloneDeep(jsonSchema), typeName)
-  const code = await window.jstt.compile(data, fakeTypeName, {
+  // console.log(111, unsafeWindow.jstt, jstt)
+  const code = await compile(data, fakeTypeName, {
     bannerComment: '',
     unknownAny: true,
     style: {

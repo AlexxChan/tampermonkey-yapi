@@ -42,6 +42,7 @@ export default defineConfig({
           'https://unpkg.com/dayjs/plugin/weekYear.js',
           'https://unpkg.com/dayjs/plugin/advancedFormat.js',
           'https://unpkg.com/dayjs/plugin/quarterOfYear.js'
+          // 'https://cdn.jsdelivr.net/npm/json-schema-to-typescript@4.1.0/dist/bundle.js'
         ]
       },
       build: {
