@@ -128,6 +128,7 @@
         classifyId,
         classifyName,
         pathPrefix: setting.value.urlPrefix || '',
+        apiTemplate: setting.value.apiTemplate || '',
         url: origin.value,
         projectId: projectId.value
       })
@@ -141,7 +142,10 @@
     checkedKeys,
     async () => {
       const list = interfaceList.value.filter((item) => checkedKeys.value.includes(item.id))
-      const { typeCode, methodCode } = await generateCodesByApiDetailList(list)
+      const { typeCode, methodCode } = await generateCodesByApiDetailList(list, {
+        frontTemplate: setting.value.frontTemplate || '',
+        behindTemplate: setting.value.behindTemplate || ''
+      })
       state.value = {
         methodCode: methodCode,
         typeCode: typeCode

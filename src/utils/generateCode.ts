@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent-js'
 import { camelCase, castArray } from 'lodash'
-import { Interface, MethodEnum } from './transformTs/type'
+import { Interface } from './transformTs/type'
 import {
   getRequestDataJsonSchema,
   getResponseDataJsonSchema,
@@ -9,6 +9,7 @@ import {
 } from './transformTs/utils'
 import { InterfaceGenRes } from './core'
 import { pascalCase } from './tools/pascalCase'
+import { compile } from 'ejs'
 
 type GenCommentFunc = (func: (title: string) => string) => string
 
@@ -17,9 +18,10 @@ interface GenInfo {
   projectId: string
   classifyInfo: any
   urlPrefix?: string
+  apiTemplate: string
 }
 
-const TREE_SHAKING_ANNOTATION = '/*#__PURE__*/'
+// const TREE_SHAKING_ANNOTATION = '/*#__PURE__*/'
 
 /**
  * 返回一个生成注释的函数, 返回的函数接收一个返回标题的函数作为参数
@@ -71,7 +73,7 @@ function getGenCommentFunc(interfaceInfo: Interface, config: GenInfo): GenCommen
     const titleComment = dedent`
 					* ${genTitle(description)}
 					*
-        `
+`
     return dedent`
 		
     /**
@@ -130,22 +132,27 @@ export async function generateInterfaceCode(
 				${requestDataType.trim()}
 				${genComment((title) => `接口 ${title} 的 **返回类型**`)}
 				${responseDataType.trim()}
-      
       `
-  const methodCode = dedent`
-					${genComment((title) => `接口 ${title} 的 **请求函数**`)}
-					export const ${requestFunctionName} = ${TREE_SHAKING_ANNOTATION} (
-						data: ${requestDataTypeName}, 
-					) => {
-						return defHttp.request<${responseDataTypeName}>(
-							{
-								url: ${JSON.stringify(config.urlPrefix + interfaceInfo.path)},
-								method: '${interfaceInfo.method}',
-								${interfaceInfo.method === MethodEnum.GET ? 'params: data' : 'data'} 
-							}
-						)
-					}
-		`
+
+  console.log('typeCode', typeCode)
+
+  const configData = {
+    base: {
+      apiName: requestFunctionName,
+      url: config.urlPrefix + interfaceInfo.path,
+      method: interfaceInfo.method,
+      type: interfaceInfo.method
+    },
+    type: {
+      paramsType: requestDataTypeName,
+      responseType: responseDataTypeName
+    }
+  }
+
+  const code = compile(config.apiTemplate)(configData)
+
+  const methodCode = `${genComment((title) => `接口 ${title} 的 **请求函数**`)}${code}`
+
   return {
     title: interfaceInfo.title,
     id: interfaceInfo._id,

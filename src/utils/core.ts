@@ -1,6 +1,7 @@
 import dedent from 'dedent-js'
 import { getClassifyAllInterfaceDetail } from '../api/core'
 import { generateInterfaceCode } from './generateCode'
+import { compile } from 'ejs'
 
 export type InterfaceGenRes = {
   title: string
@@ -34,8 +35,9 @@ export async function getInterfaceDetailList(props: {
   pathPrefix: string
   classifyId: string
   classifyName: string
+  apiTemplate: string
 }): Promise<InterfaceGenRes[]> {
-  const { classifyName, classifyId, pathPrefix, url, projectId } = props
+  const { classifyName, classifyId, pathPrefix, url, projectId, apiTemplate } = props
   const interfaceList = await getClassifyAllInterfaceDetail(classifyId)
   return await Promise.all(
     interfaceList.map(async (detail) =>
@@ -44,6 +46,7 @@ export async function getInterfaceDetailList(props: {
         url,
         projectId,
         urlPrefix: pathPrefix,
+        apiTemplate,
         classifyInfo: {
           _id: classifyId,
           name: classifyName
@@ -57,10 +60,16 @@ export async function getInterfaceDetailList(props: {
  * @description 根据classifyId生成ts代码
  * @returns {Promise<{typeNames: any, methodCode: string, typeCode: string}>}
  * @param codeAry
+ * @param config
  */
 export async function generateCodesByApiDetailList(
-  codeAry: InterfaceGenRes[]
+  codeAry: InterfaceGenRes[],
+  config: {
+    frontTemplate: string
+    behindTemplate: string
+  }
 ): Promise<{ typeNames: any; methodCode: string; typeCode: string }> {
+  const { frontTemplate = '', behindTemplate = '' } = config
   const { typesCode, methodsCode, typeNames } = codeAry.reduce<CodeAryReduceReturn>(
     (prev, { typeCode, methodCode, typeNames }) => {
       prev.typesCode.push(typeCode)
@@ -75,9 +84,13 @@ export async function generateCodesByApiDetailList(
     }
   )
 
+  const frontCode = compile(frontTemplate)({ typeNames })
+  const behindCode = behindTemplate
+
   const completeMethodCode = dedent`
-        ${generateApiFuncName(typeNames)}
+        ${frontCode}
     		${methodsCode.join('\n')}
+    		${behindCode}
     	`
 
   const completeTypeCode = dedent`
@@ -89,15 +102,4 @@ export async function generateCodesByApiDetailList(
     typeCode: completeTypeCode,
     typeNames: typeNames
   }
-}
-
-/**
- * @description 生成请求方法页面导入类型的部分
- */
-function generateApiFuncName(typeNames: string[]) {
-  const completeMethodCode = dedent`
-    		import defHttp from '/@/utils/http/axios';
-    		import { ${typeNames.join(',')} } from "./model/xxxx.js"
-    	`
-  return completeMethodCode
 }

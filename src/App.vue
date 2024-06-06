@@ -27,8 +27,6 @@
   const typeRef = ref()
   const settingRef = ref()
 
-  // const interfaceData = ref<Record<string, any>>()
-
   function openSetting() {
     settingRef.value?.open()
   }

@@ -20,6 +20,7 @@
     "axios": "^1.6.2",
     "copy-to-clipboard": "^3.3.3",
     "dedent-js": "^1.0.1",
+    "ejs": "^3.1.10",
     "highlight.js": "^11.6.0",
     "js-beautify": "^1.14.11",
     "json-schema": "^0.4.0",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@iconify/utils": "^2.1.5",
+    "@types/ejs": "^3.1.5",
     "@types/js-beautify": "^1.14.3",
     "@types/json-schema": "^7.0.15",
     "@types/to-json-schema": "^0.2.4",
